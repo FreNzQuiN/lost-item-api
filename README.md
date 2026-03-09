@@ -1,59 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistem Pelaporan Barang Hilang FILKOM UB (Lost Item Reporting API)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## 1. Deskripsi Studi Kasus
 
-## About Laravel
+Di lingkungan Fakultas Ilmu Komputer Universitas Brawijaya (FILKOM UB), pelaporan barang hilang di ruang kelas atau area kampus masih dilakukan secara manual, misalnya dengan bertanya kepada petugas atau menyebarkan informasi secara informal. Hal ini sering menyebabkan informasi tidak tersampaikan dengan baik dan proses pencarian barang menjadi tidak efisien. Oleh karena itu, dibuat sebuah sistem berbasis API yang memungkinkan pengguna melaporkan barang hilang secara terstruktur sehingga data dapat tersimpan dan dikelola secara sistematis.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Sistem ini menyediakan layanan **REST API** untuk mengelola data barang hilang menggunakan operasi **CRUD (Create, Read, Update, Delete)**. Melalui API ini, pengguna dapat menambahkan laporan barang hilang, melihat daftar barang yang dilaporkan, memperbarui informasi laporan, serta menghapus laporan yang tidak diperlukan.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 2. Tujuan Sistem
 
-## Learning Laravel
+Tujuan dari sistem ini adalah:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Menyediakan sistem pelaporan barang hilang secara digital.
+- Menyimpan data laporan barang secara terstruktur dalam database.
+- Mempermudah pengguna untuk mencari dan mengelola informasi barang hilang.
+- Mengimplementasikan konsep **REST API CRUD menggunakan Laravel**.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 3. Struktur Data
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Data utama yang digunakan dalam sistem ini adalah **Lost Item** dengan atribut sebagai berikut:
 
-### Premium Partners
+| Field         | Tipe Data          | Deskripsi               |
+| ------------- | ------------------ | ----------------------- |
+| id            | integer            | ID unik barang          |
+| item_name     | string             | Nama barang yang hilang |
+| description   | text               | Deskripsi barang        |
+| location_lost | string             | Lokasi barang hilang    |
+| date_lost     | date               | Tanggal barang hilang   |
+| reporter_name | string             | Nama pelapor            |
+| contact       | string             | Kontak pelapor          |
+| status        | enum (lost, found) | Status barang           |
+| created_at    | timestamp          | Waktu data dibuat       |
+| updated_at    | timestamp          | Waktu data diperbarui   |
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+## 4. Daftar Endpoint API
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Sistem ini menyediakan beberapa endpoint API yang digunakan untuk mengelola data barang hilang.
 
-## Code of Conduct
+| Method      | Endpoint             | Deskripsi                                |
+| ----------- | -------------------- | ---------------------------------------- |
+| GET         | /api/lost-items      | Menampilkan seluruh data barang hilang   |
+| GET         | /api/lost-items/{id} | Menampilkan detail barang berdasarkan ID |
+| POST        | /api/lost-items      | Menambahkan laporan barang hilang        |
+| PUT / PATCH | /api/lost-items/{id} | Memperbarui data laporan barang          |
+| DELETE      | /api/lost-items/{id} | Menghapus laporan barang                 |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 5. Implementasi Sistem
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Sistem ini dikembangkan menggunakan framework **Laravel** dengan pendekatan **REST API**. Endpoint API didefinisikan pada file `routes/api.php`, sedangkan logika pengolahan data berada pada `LostItemController`. Setiap endpoint memanggil fungsi tertentu pada controller untuk menjalankan operasi CRUD terhadap database.
 
-## License
+Struktur fungsi yang digunakan pada controller adalah sebagai berikut:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- `index()` → mengambil seluruh data barang hilang
+- `show($id)` → mengambil data barang berdasarkan ID
+- `store(Request $request)` → menambahkan data laporan baru
+- `update(Request $request, $id)` → memperbarui data laporan
+- `destroy($id)` → menghapus data laporan
+
+Database dikelola menggunakan fitur **Laravel Migration** sehingga struktur tabel dapat dibuat dan dikelola secara terkontrol.
+
+---
+
+## 6. Teknologi yang Digunakan
+
+Beberapa teknologi yang digunakan dalam pengembangan sistem ini adalah:
+
+- **Laravel Framework** – backend API development
+- **PHP** – bahasa pemrograman utama
+- **MySQL** – sistem manajemen basis data
+- **Git & GitHub** – version control dan kolaborasi tim
+- **Postman / Thunder Client** – pengujian endpoint API
+
+---
+
+## 7. Repository GitHub
+
+Kode sumber dari sistem ini dapat diakses melalui repository berikut:
+
+**GitHub Repository:**
+`https://github.com/nama-repo/lost-item-api`
+
+Setiap anggota kelompok berkontribusi dengan melakukan commit dan push minimal satu kali ke repository.
+
+---
+
+## 8. Kesimpulan
+
+Sistem Pelaporan Barang Hilang ini memberikan solusi sederhana untuk mencatat dan mengelola laporan kehilangan barang di lingkungan FILKOM UB. Dengan menggunakan pendekatan REST API dan operasi CRUD, data dapat disimpan secara terstruktur dan dapat diakses dengan mudah melalui endpoint API. Implementasi sistem ini juga membantu memahami konsep pengembangan backend menggunakan Laravel, penggunaan migration untuk manajemen database, serta kolaborasi pengembangan menggunakan Git dan GitHub.
