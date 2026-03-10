@@ -76,4 +76,123 @@ Beberapa teknologi yang digunakan dalam pengembangan sistem ini adalah:
 - **PHP** – bahasa pemrograman utama
 - **MySQL** – sistem manajemen basis data
 - **Git & GitHub** – version control dan kolaborasi tim
-- **Postman / Thunder Client** – pengujian endpoint API
+
+---
+
+## 7. Manual Penggunaan Singkat
+
+### 7.1 Setup Proyek
+
+1. Install dependency:
+
+```bash
+composer install
+```
+
+2. Buat file environment:
+
+```bash
+copy .env.example .env
+# atau (PowerShell)
+Copy-Item .env.example .env
+```
+
+3. Atur database di file `.env` (contoh: `DB_DATABASE`, `DB_USERNAME`, `DB_PASSWORD`).
+
+4. Generate app key:
+
+```bash
+php artisan key:generate
+```
+
+### 7.2 Siapkan Database
+
+Jalankan migrasi + seed data contoh:
+
+```bash
+php artisan migrate --seed
+```
+
+### 7.3 Jalankan Aplikasi
+
+```bash
+php artisan serve
+```
+
+Base URL API:
+
+```text
+http://127.0.0.1:8000/api
+```
+
+### 7.4 Endpoint Utama
+
+| Method    | Endpoint           | Fungsi                     |
+| --------- | ------------------ | -------------------------- |
+| GET       | `/lost-items`      | Menampilkan semua laporan  |
+| GET       | `/lost-items/{id}` | Menampilkan detail laporan |
+| POST      | `/lost-items`      | Menambah laporan baru      |
+| PUT/PATCH | `/lost-items/{id}` | Memperbarui laporan        |
+| DELETE    | `/lost-items/{id}` | Menghapus laporan          |
+
+### 7.5 Contoh Request (Copy-Paste)
+
+Create data:
+
+```bash
+curl -X POST http://127.0.0.1:8000/api/lost-items \
+  -H "Content-Type: application/json" \
+  -d '{
+    "item_name": "Kunci Motor",
+    "description": "Gantungan merah",
+    "location_lost": "Parkiran FILKOM",
+    "date_lost": "2026-03-10",
+    "reporter_name": "Nadia",
+    "contact": "089876543210"
+  }'
+```
+
+Get semua data:
+
+```bash
+curl http://127.0.0.1:8000/api/lost-items
+```
+
+Update status:
+
+```bash
+curl -X PATCH http://127.0.0.1:8000/api/lost-items/1 \
+  -H "Content-Type: application/json" \
+  -d '{"status":"found"}'
+```
+
+Delete data:
+
+```bash
+curl -X DELETE http://127.0.0.1:8000/api/lost-items/1
+```
+
+### 7.6 Verifikasi Cepat
+
+```bash
+php artisan route:list
+php artisan test
+```
+
+### 7.7 Coba Tanpa Terminal (Postman/Thunder Client)
+
+1. Buat request `POST` ke `http://127.0.0.1:8000/api/lost-items`.
+2. Pilih `Body -> raw -> JSON`, lalu isi:
+
+```json
+{
+    "item_name": "Kartu KTM",
+    "description": "Kartu mahasiswa FILKOM",
+    "location_lost": "Gedung G",
+    "date_lost": "2026-03-10",
+    "reporter_name": "Budi",
+    "contact": "081200000000"
+}
+```
+
+3. Kirim request `GET` ke `http://127.0.0.1:8000/api/lost-items` untuk memastikan data masuk.

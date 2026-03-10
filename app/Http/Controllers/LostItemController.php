@@ -28,8 +28,11 @@ class LostItemController extends Controller
             'location_lost' => 'required|string|max:255',
             'date_lost' => 'required|date',
             'reporter_name' => 'required|string|max:255',
-            'contact' => 'required|string|max:255'
+            'contact' => 'required|string|max:255',
+            'status' => 'sometimes|in:lost,found',
         ]);
+
+        $validated['status'] = $validated['status'] ?? 'lost';
 
         $item = LostItem::create($validated);
 
