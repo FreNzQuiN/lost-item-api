@@ -168,6 +168,10 @@ Update status:
 curl -X PATCH http://127.0.0.1:8000/api/lost-items/1 \
   -H "Content-Type: application/json" \
   -d '{"status":"found"}'
+# atau (PowerShell)
+curl.exe -X PATCH http://127.0.0.1:8000/api/lost-items/1 `
+  -H "Content-Type: application/json" `
+  -d '{"status":"found"}'
 ```
 
 Delete data:
