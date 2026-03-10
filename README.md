@@ -135,7 +135,7 @@ http://127.0.0.1:8000/api
 | PUT/PATCH | `/lost-items/{id}` | Memperbarui laporan        |
 | DELETE    | `/lost-items/{id}` | Menghapus laporan          |
 
-### 7.5 Contoh Request (Copy-Paste)
+### 7.5 Contoh Request
 
 Create data:
 
@@ -150,6 +150,10 @@ curl -X POST http://127.0.0.1:8000/api/lost-items \
     "reporter_name": "Nadia",
     "contact": "089876543210"
   }'
+# atau (PowerShell)
+curl.exe -X POST http://127.0.0.1:8000/api/lost-items `
+  -H "Content-Type: application/json" `
+  -d '{ \"item_name\": \"Kunci Motor\", \"description\": \"Gantungan merah\", \"location_lost\": \"Parkiran FILKOM\", \"date_lost\": \"2026-03-10\", \"reporter_name\": \"Nadia\", \"contact\": \"089876543210\" }'
 ```
 
 Get semua data:
